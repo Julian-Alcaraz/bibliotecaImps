@@ -19,7 +19,7 @@ class Autor{
     
     public function setear($id,$nombre,$apellido,$lugar,$fecha,$estado){
         $this->setidAutor($id);
-        $this->setNombreEditorial($nombre);
+        $this->setNombreAutor($nombre);
         $this->setApellidoAutor($apellido);
         $this->setLugarNacimiento($lugar);
         $this->setFechaNacimiento($fecha);
@@ -28,7 +28,7 @@ class Autor{
 
     // Seters
     public function setIdAutor($id){$this->idAutor= $id;}
-    public function setNombreEditorial($nombre){ $this->nombreAutor= $nombre; }
+    public function setNombreAutor($nombre){ $this->nombreAutor= $nombre; }
     public function setApellidoAutor($apellido){ $this->apellidoAutor= $apellido; }
     public function setLugarNacimiento($lugar) {  $this->lugarNacimiento  = $lugar; } 
     public function setFechaNacimiento($fecha) {  $this->fechaNacimiento = $fecha; } 
@@ -65,7 +65,7 @@ class Autor{
     public function insertar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="INSERT INTO autor ( nombreAutor ,apellidoAutor,lugarNacimiento,fechaNacimiento,autorDeshabilitado)  ";
+        $sql="INSERT INTO autor (nombreAutor ,apellidoAutor,lugarNacimiento,fechaNacimiento,autorDeshabilitado)  ";
         $sql.="VALUES('".$this->getNombreAutor()."','".$this->getApellidoAutor()."',".$this->getLugarNacimiento()."',".$this->getFechaNacimiento()."',";
         if ($this->getAutorDeshabilitado()!=null)
             $sql.= "'".$this->getAutorDeshabilitado()."'";
@@ -74,7 +74,7 @@ class Autor{
         $sql.= ");";
         if ($base->Iniciar()) {
             if ($elid = $base->Ejecutar($sql)) {
-                $this->setidAutor($elid);
+                $this->setIdAutor($elid);
                 $resp = true;
             } else {
                 $this->setMensajeoperacion("Autor->insertar: ".$base->getError()[2]);
@@ -137,7 +137,7 @@ class Autor{
         }
         return $resp;
     }
-    public function activarEditorial (){
+    public function activarAutor (){
         $resp = false;
         $base = new BaseDatos();
         $sql = 

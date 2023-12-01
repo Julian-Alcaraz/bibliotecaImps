@@ -18,56 +18,63 @@ $pagSeleccionada = "Nuevo Libro";
 
 <body>
     <?php
-        $ambAutor = new AbmAutor();
-        $abmEditorial = new AbmEditorial();
-        $listaAutores= $ambAutor->buscar(null);
-        $listaEditoriales= $abmEditorial->buscar(null);
+    $ambAutor = new AbmAutor();
+    $abmEditorial = new AbmEditorial();
+    $listaAutores = $ambAutor->buscar(null);
+    $listaEditoriales = $abmEditorial->buscar(null);
     ?>
     <div class="container text-center py-4 mt-3 border ">
         <div class="row justify-content-center">
             <div class="col-10">
-                <div class="container border">
-                  <h4> Formulario para cargar Libro</h4>
-                  <form action="">
-                    <div>
-                        <label for="">Nombre</label>
-                        <input type="text">
-                    </div>  
-                    <div>
-                        <label for="">Cantidad de Paginas</label>
-                        <input type="number">
-                    </div>  
-                    <div>
-                        <label for="">Idioma</label>
-                        <input type="text">
-                    </div>  
-                    <div>
-                        <label for="">Fecha Publicacion</label>
-                        <input type="text">
-                    </div>  
-                    <div>
-                        <label for="">Autor</label>
-                        <select name="" id="">
-                            <?php 
-                                echo '<option> Seleccion un autor</option>';
-                                foreach ($listaAutores as $autor){
-                                    echo '<option value="'.$autor->getIdAutor().'" >'.$autor->getNombreAutor().'</option>';
-                                }
-                            ?>
-                        </select>
-                    </div>  
-                    <div>
-                        <label for="">Autor</label>
-                        <select name="" id="">
-                            <?php 
-                                echo '<option> Seleccion un Editorial</option>';
-                                foreach ($listaEditoriales as $editorial){
-                                    echo '<option value="'.$editorial->getIdEditorial().'" >'.$editorial->getNombreEditorial().'</option>';
-                                }
-                            ?>
-                        </select>
-                    </div> 
-                  </form>
+                <div class="container border p-4">
+                    <h4> Formulario para cargar Libro</h4>
+                    <form name="cargarLibroForm" id="cargarLibroForm" action="" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombreL" class="form-label">Nombre</label>
+                                <input type="text" id="nombreL" name="nombreL" class="form-control" placeholder="Nombre del libro ">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cantP" class="form-label">Cantidad de Paginas</label>
+                                <input type="number"id="cantP" name="cantP" class="form-control" placeholder="Cantidad de Paginas">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="idioma" class="form-label">Idioma</label>
+                                <input type="text" id="idioma" name="idioma" class="form-control" placeholder="Idioma">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="anio" class="form-label">A&ntilde;o Publicacion</label>
+                                <input type="number" id="anio" name="anio" class="form-control" placeholder="Fecha Publicacion">
+                            </div>
+                            <input id="accion" name="accion" value="nuevo" type="hidden">
+
+                            <div class="col-md-6" class="form-label">
+                                <label for="idAutor">Autor</label>
+                                <select name="idAutor" id="idAutor" class="form-select" placeholder="First name">
+                                    <?php
+                                    // echo '<option> Seleccion un autor</option>';
+                                    foreach ($listaAutores as $autor) {
+                                        echo '<option value="' . $autor->getIdAutor() . '" >' . $autor->getNombreAutor() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6" class="form-label">
+                                <label for="idEditorial">Editorial</label>
+                                <select name="idEditorial" id="idEditorial" class="form-select" placeholder="First name">
+                                    <?php
+                                    // echo '<option> Seleccion un Editorial</option>';
+                                    foreach ($listaEditoriales as $editorial) {
+                                        echo '<option value="' . $editorial->getIdEditorial() . '" >' . $editorial->getNombreEditorial() . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <input  class="btn btn-success btn-cargar " type="submit"  value="Cargar Libro">
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-3 mt-3">
@@ -89,22 +96,36 @@ $pagSeleccionada = "Nuevo Libro";
     <!-- Modal Nuevo -->
     <div class="modal fade" id="cargarAutor" name="cargarAutor" tabindex="-1" aria-labelledby="cargarAutorLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form name="nuevoform" id="nuevoform" method="post">
+            <form name="cargarAutorForm" id="cargarAutorForm" method="post">
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-light">
-                        <h1 class="modal-title fs-5" id="editarModalLabel">Nuevo Rol</h1>
+                        <h1 class="modal-title fs-5" id="editarModalLabel">Nuevo Autorl</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="rolDescripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="rolDescripcion" name="rolDescripcion">
+                    <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombreA" class="form-label">Nombre</label>
+                                <input type="text" id="nombreA" name="nombreA" class="form-control" placeholder="Nombre del lAutor ">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellidoA" class="form-label">Apellidoo</label>
+                                <input type="text"id="apellidoA" name="apellidoA" class="form-control" placeholder="Apellido Autor">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nacionalidad" class="form-label">Nacionalidad</label>
+                                <input type="text" id="nacionalidad" name="nacionalidad" class="form-control" placeholder="Nacionalidad">
+                            </div>
+                            <div class="col-md-6" class="form-label">
+                                <label for="fecha">Fecha Nacimiento</label>
+                                <input type="date" name="fecha" id="fecha" class="form-select" placeholder="First name">
+                            </div>
                         </div>
                     </div>
                     <input id="accion" name="accion" value="nuevo" type="hidden">
                     <div class="modal-footer  bg-dark">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success" onclick="guardarCambiosNuevo()">Agregar</button>
+                        <input  class="btn btn-success btn-cargarAutor " type="submit"  value="Cargar Autor">
                     </div>
                 </div>
             </form>
@@ -136,7 +157,6 @@ $pagSeleccionada = "Nuevo Libro";
             </form>
         </div>
     </div>
-    <script src="./js/.js"></script>
+    <script src="./js/funciones.js"></script>
 </body>
-
 </html>

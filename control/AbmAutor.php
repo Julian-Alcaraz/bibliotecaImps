@@ -34,9 +34,9 @@ class AbmAutor
                 }
             }
             if ($datos['accion'] == 'nuevo') {
-                $id = $this->alta($datos);
-                if ($id <> null) {
-                    $array["exito"] = true;
+                if ($this->alta($datos)) 
+                {
+                    $array ["exito"] = true;
                 }
             }    
             if ($datos['accion'] == 'altaLogica') {
@@ -65,7 +65,7 @@ class AbmAutor
             array_key_exists('fechaNacimiento',$param)  ))
             // && array_key_exists('autorDeshabilitado',$param)
         {
-            $obj=new Autor();
+            $obj = new Autor();
             $idAutor = $param ['idAutor'];
             $nombreAutor = $param ['nombreAutor'];
             $apellidoAutor = $param ['apellidoAutor'];
@@ -108,10 +108,8 @@ class AbmAutor
      */
     public function alta($param){
         $resp = false;
-        // $param['idAutor'] = null; 
-        // $idLibroInsertado = null;
-        $objLibro = $this->cargarObjeto($param);
-        if ($objLibro != null and $objLibro->insertar() ){
+        $objAutor = $this->cargarObjeto($param);
+        if ($objAutor != null and $objAutor->insertar() ){
             $resp = true;
         }
         return $resp;
@@ -124,7 +122,7 @@ class AbmAutor
     public function altaLogica($param){
         $resp = false;
         $objAutor = $this->cargarObjetoConClave($param);
-        if ($objAutor != null and $objAutor->activarEditorial() ){
+        if ($objAutor != null and $objAutor->activarAutor() ){
             $resp = true;
         }
         return $resp;

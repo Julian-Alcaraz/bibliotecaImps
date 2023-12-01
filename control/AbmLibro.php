@@ -1,5 +1,5 @@
 <?php
-class AbmAutor
+class AbmLibro
 {
     /**
      * Funcion ABM. Espera un array de parametro. Indicando la accion a realizar.
@@ -34,9 +34,9 @@ class AbmAutor
                 }
             }
             if ($datos['accion'] == 'nuevo') {
-                $id = $this->alta($datos);
-                if ($id <> null) {
-                    $array["exito"] = true;
+                if ($this->alta($datos)) 
+                {
+                    $array ["exito"] = true;
                 }
             }    
             if ($datos['accion'] == 'altaLogica') {
@@ -65,7 +65,7 @@ class AbmAutor
             array_key_exists('anioPublicacion',$param)&& array_key_exists('idAutor',$param)&& array_key_exists('idEditorial',$param) ))
             // && array_key_exists('autorDeshabilitado',$param)
         {
-            $obj=new Autor();
+            $obj=new Libro();
             $idLibro = $param ['idLibro'];
             $nombreLibro = $param ['nombreLibro'];
             $cantidadPag = $param ['cantidadPag'];
@@ -89,9 +89,9 @@ class AbmAutor
      */
     private function cargarObjetoConClave($param){
         $obj = null;
-        if (isset($param['idAutor'])) {
-            $obj = new Autor();
-            $obj -> setear($param['idAutor'], null, null, null, null,  null);
+        if (isset($param['idLibro'])) {
+            $obj = new Libro();
+            $obj -> setear($param['idLibro'],null, null, null, null, null,null,null);
         }
         return $obj;
     }
@@ -102,20 +102,18 @@ class AbmAutor
      */
      private function seteadosCamposClaves($param){
         $resp = false;
-        if (isset($param['idAutor']))
+        if (isset($param['idLibro']))
             $resp = true;
         return $resp;
     }
     
     /**
-     * Carga un autor a la BD. Espera un array como parametro.
+     * Carga un libro a la BD. Espera un array como parametro.
      * Retorna un booleano
      * @param array $param
      */
     public function alta($param){
         $resp = false;
-        // $param['idAutor'] = null; 
-        // $idLibroInsertado = null;
         $objLibro = $this->cargarObjeto($param);
         if ($objLibro != null and $objLibro->insertar() ){
             $resp = true;
@@ -123,20 +121,20 @@ class AbmAutor
         return $resp;
     }
     /**
-     * Acticva logicamente el autor a la BD. Espera un array como parametro.
+     * Acticva logicamente el libro a la BD. Espera un array como parametro.
      * Retorna un booleano
      * @param array $param
      */
     public function altaLogica($param){
         $resp = false;
         $objLibro = $this->cargarObjetoConClave($param);
-        if ($objLibro != null and $objLibro->activarEditorial() ){
+        if ($objLibro != null and $objLibro->activarLibro() ){
             $resp = true;
         }
         return $resp;
     }
     /**
-     * Borra un Autor de la BD. Espera un array como parametro.
+     * Borra un libro de la BD. Espera un array como parametro.
      * Retorna un booleano.
      * @param array $param
      * @return boolean
@@ -152,7 +150,7 @@ class AbmAutor
         return $resp;
     }
     /**
-     * Borra Logicamente un autor de la BD. Espera un array como parametro.
+     * Borra Logicamente un libro de la BD. Espera un array como parametro.
      * Retorna un booleano.
      * @param array $param
      * @return boolean
@@ -168,7 +166,7 @@ class AbmAutor
         return $resp;
     }
     /**
-     * Modifica un autor. Espera un array como parametro.
+     * Modifica un libro. Espera un array como parametro.
      * Retorna un booleano.
      * @param array $param
      * @return boolean
@@ -219,14 +217,14 @@ class AbmAutor
                 $where.=" and libroDeshabilitado is null";
             }
         }
-        $arreglo = Autor::listar($where);
+        $arreglo = Libro::listar($where);
         return $arreglo;  
     }
     
     public function listarPorNombre(){
         $where=true;
         $where.=" ORDER BY nombreLibro ASC"; // no hace falta poner asc seria el predeterminado
-        $arreglo = Autor::listar($where);
+        $arreglo = Libro::listar($where);
         return $arreglo;  
     }
 }

@@ -164,6 +164,38 @@ class Libro{
         }
         return $respuesta;
     }
+    public function eliminarLogico(){
+        $resp = false;
+        $base = new BaseDatos();
+        $sql = 
+        "UPDATE libro SET libroDeshabilitado = NOW() WHERE idLibro='" . $this->getIdLibro() . "'";
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($sql)) {
+                return true;
+            } else {
+                $this->setmensajeoperacion("Libro->eliminarLogico: " . $base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion("Libro->eliminarLogico: " . $base->getError());
+        }
+        return $resp;
+    }
+    public function activarLibro (){
+        $resp = false;
+        $base = new BaseDatos();
+        $sql = 
+        "UPDATE libro SET libroDeshabilitado = null WHERE idLibro='" . $this->getIdLibro() . "'";
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($sql)) {
+                return true;
+            } else {
+                $this->setmensajeoperacion("libro->activarLogico: " . $base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion("libro->activarLogico: " . $base->getError());
+        }
+        return $resp;
+    }
 
     public static function listar($parametro = "")
     {
