@@ -60,19 +60,25 @@ class AbmAutor
      */
     private function cargarObjeto ($param){
         $obj = null;
-        if ((array_key_exists('idAutor',$param)  && array_key_exists('nombreAutor',$param) &&
-            array_key_exists('apellidoAutor',$param) && array_key_exists('lugarNacimiento',$param) &&
-            array_key_exists('fechaNacimiento',$param)  ))
+        if ((array_key_exists('idLibro',$param)  && array_key_exists('nombreLibro',$param) &&
+            array_key_exists('cantidadPag',$param) && array_key_exists('idioma',$param) &&
+            array_key_exists('anioPublicacion',$param)&& array_key_exists('idAutor',$param)&& array_key_exists('idEditorial',$param) ))
             // && array_key_exists('autorDeshabilitado',$param)
         {
             $obj=new Autor();
-            $idAutor = $param ['idAutor'];
-            $nombreAutor = $param ['nombreAutor'];
-            $apellidoAutor = $param ['apellidoAutor'];
-            $lugarNacimiento = $param ['lugarNacimiento'];
-            $fechaNacimiento = $param ['fechaNacimiento'];
-            // $autorDeshabilitado = $param ['autorDeshabilitado'];
-            $obj -> setear ($idAutor, $nombreAutor, $apellidoAutor,$lugarNacimiento,$fechaNacimiento,null);
+            $idLibro = $param ['idLibro'];
+            $nombreLibro = $param ['nombreLibro'];
+            $cantidadPag = $param ['cantidadPag'];
+            $idioma = $param ['idioma'];
+            $anioPublicacion = $param ['anioPublicacion'];
+            $abmEditorial= new AbmEditorial();
+            $abmAutor= new AbmAutor();
+            $listaE= $abmEditorial->buscar($param);
+            $listaA= $abmAutor->buscar($param);
+            $objAutor=$listaA[0];
+            $objEditorial=$listaE[0];
+            // $libroDeshabilitado = $param ['libroDeshabilitado'];
+            $obj -> setear ($idLibro, $nombreLibro, $cantidadPag,$idioma,$anioPublicacion,$objAutor,$objEditorial,null);
         }
         return $obj;
     }
@@ -85,7 +91,7 @@ class AbmAutor
         $obj = null;
         if (isset($param['idAutor'])) {
             $obj = new Autor();
-                $obj -> setear($param['idAutor'], null, null, null, null,  null);
+            $obj -> setear($param['idAutor'], null, null, null, null,  null);
         }
         return $obj;
     }
@@ -123,8 +129,8 @@ class AbmAutor
      */
     public function altaLogica($param){
         $resp = false;
-        $objAutor = $this->cargarObjeto($param);
-        if ($objAutor != null and $objAutor->activarEditorial() ){
+        $objLibro = $this->cargarObjetoConClave($param);
+        if ($objLibro != null and $objLibro->activarEditorial() ){
             $resp = true;
         }
         return $resp;
@@ -138,8 +144,8 @@ class AbmAutor
     public function baja($param){
         $resp = false;
         if ($this->seteadosCamposClaves($param)){
-            $objAutor = $this->cargarObjetoConClave($param); 
-            if ($objAutor!=null and $objAutor->eliminar()){
+            $objLibro = $this->cargarObjetoConClave($param); 
+            if ($objLibro!=null and $objLibro->eliminar()){
                 $resp = true;
             }
         }
@@ -154,8 +160,8 @@ class AbmAutor
     public function bajaLogica($param){
         $resp = false;
         if ($this->seteadosCamposClaves($param)){
-            $objAutor = $this->cargarObjeto($param);
-            if($objAutor!=null and $objAutor->eliminarLogico()){
+            $objLibro = $this->cargarObjetoConClave($param);
+            if($objLibro!=null and $objLibro->eliminarLogico()){
                 $resp = true;
             }
         }
@@ -170,8 +176,8 @@ class AbmAutor
     public function modificacion($param){
         $resp = false;
         if ($this->seteadosCamposClaves($param)){
-            $objAutor = $this->cargarObjeto($param);
-            if($objAutor!=null and $objAutor->modificar()){
+            $objLibro = $this->cargarObjeto($param);
+            if($objLibro!=null and $objLibro->modificar()){
                 $resp = true;
             }
         }
@@ -188,25 +194,38 @@ class AbmAutor
         $where = " true ";
         if ($param<>NULL)
         {
+            if  (isset($param['idLibro'])) {
+                $where.=" and idLibro=".$param['idLibro'];
+            }
+            if  (isset($param['nombreLibro'])) {
+                $where.=" and nombreLibro ='".$param['nombreLibro']."'";
+            }
+            if  (isset($param['cantidadPag'])) {
+                $where.=" and cantidadPag=".$param['cantidadPag'];
+            }
+            if  (isset($param['idioma'])) {
+                $where.=" and idioma=".$param['idioma'];
+            }
+            if  (isset($param['anioPublicacion'])) {
+                $where.=" and anioPublicacion=".$param['anioPublicacion'];
+            }
             if  (isset($param['idAutor'])) {
                 $where.=" and idAutor=".$param['idAutor'];
             }
-            if  (isset($param['nombreAutor'])) {
-                $where.=" and nombreAutor ='".$param['nombreAutor']."'";
+            if  (isset($param['idEditorial'])) {
+                $where.=" and idEditorial=".$param['idEditorial'];
             }
-            if  (isset($param['apellidoAutor'])) {
-                $where.=" and apellidoAutor=".$param['apellidoAutor'];
-            }
-            if  (isset($param['lugarNacimiento'])) {
-                $where.=" and lugarNacimiento=".$param['lugarNacimiento'];
-            }
-            if  (isset($param['fechaNacimiento'])) {
-                $where.=" and fechaNacimiento=".$param['fechaNacimiento'];
-            }
-            if  (isset($param['autorDeshabilitado'])) {
-                $where.=" and autorDeshabilitado=".$param['autorDeshabilitado'];
+            if  (isset($param['libroDeshabilitado'])) {
+                $where.=" and libroDeshabilitado is null";
             }
         }
+        $arreglo = Autor::listar($where);
+        return $arreglo;  
+    }
+    
+    public function listarPorNombre(){
+        $where=true;
+        $where.=" ORDER BY nombreLibro ASC"; // no hace falta poner asc seria el predeterminado
         $arreglo = Autor::listar($where);
         return $arreglo;  
     }

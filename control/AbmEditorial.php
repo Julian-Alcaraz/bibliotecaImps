@@ -189,7 +189,7 @@ class AbmEditorial
                 $where.=" and nombreEditorial ='".$param['nombreEditorial']."'";
             }
             if  (isset($param['editorialDeshabilitado'])) {
-                $where.=" and editorialDeshabilitado=".$param['editorialDeshabilitado'];
+                $where.=" and editorialDeshabilitado is null";
             }
         }
         $arreglo = Editorial::listar($where);

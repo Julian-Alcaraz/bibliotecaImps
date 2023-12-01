@@ -123,7 +123,7 @@ class AbmAutor
      */
     public function altaLogica($param){
         $resp = false;
-        $objAutor = $this->cargarObjeto($param);
+        $objAutor = $this->cargarObjetoConClave($param);
         if ($objAutor != null and $objAutor->activarEditorial() ){
             $resp = true;
         }
@@ -154,7 +154,7 @@ class AbmAutor
     public function bajaLogica($param){
         $resp = false;
         if ($this->seteadosCamposClaves($param)){
-            $objAutor = $this->cargarObjeto($param);
+            $objAutor = $this->cargarObjetoConClave($param);
             if($objAutor!=null and $objAutor->eliminarLogico()){
                 $resp = true;
             }
@@ -204,7 +204,7 @@ class AbmAutor
                 $where.=" and fechaNacimiento=".$param['fechaNacimiento'];
             }
             if  (isset($param['autorDeshabilitado'])) {
-                $where.=" and autorDeshabilitado=".$param['autorDeshabilitado'];
+                $where.=" and autorDeshabilitado is null";
             }
         }
         $arreglo = Autor::listar($where);
