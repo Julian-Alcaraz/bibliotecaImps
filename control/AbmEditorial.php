@@ -34,8 +34,7 @@ class AbmEditorial
                 }
             }
             if ($datos['accion'] == 'nuevo') {
-                $id = $this->alta($datos);
-                if ($id <> null) {
+                if ($this->alta($datos)) {
                     $array["exito"] = true;
                 }
             }    
@@ -64,7 +63,7 @@ class AbmEditorial
         ))
             // && array_key_exists('editorialDeshabilitado',$param)   
         {
-            $obj=new Editorial();
+            $obj =new Editorial();
             $idEditorial = $param ['idEditorial'];
             $nombreEditorial = $param ['nombreEditorial'];
             // $editorialDeshabilitado = $param ['editorialDeshabilitado'];

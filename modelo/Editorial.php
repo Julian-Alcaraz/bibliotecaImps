@@ -51,13 +51,8 @@ class Editorial{
     public function insertar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="INSERT INTO editorial( nombreEditorial , editorialDeshabilitado)  ";
-        $sql.="VALUES('".$this->getNombreEditorial()."','".$this->getEditorialDeshabilitado()."',";
-        if ($this->getEditorialDeshabilitado()!=null)
-            $sql.= "'".$this->getEditorialDeshabilitado()."'";
-        else 
-            $sql.="null";
-        $sql.= ");";
+        $sql="INSERT INTO editorial( nombreEditorial )  ";
+        $sql.="VALUES('".$this->getNombreEditorial()."');";
         if ($base->Iniciar()) {
             if ($elid = $base->Ejecutar($sql)) {
                 $this->setIdEditorial($elid);

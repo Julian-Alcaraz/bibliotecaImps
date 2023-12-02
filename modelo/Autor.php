@@ -65,22 +65,17 @@ class Autor{
     public function insertar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="INSERT INTO autor (nombreAutor ,apellidoAutor,lugarNacimiento,fechaNacimiento,autorDeshabilitado)  ";
-        $sql.="VALUES('".$this->getNombreAutor()."','".$this->getApellidoAutor()."',".$this->getLugarNacimiento()."',".$this->getFechaNacimiento()."',";
-        if ($this->getAutorDeshabilitado()!=null)
-            $sql.= "'".$this->getAutorDeshabilitado()."'";
-        else 
-            $sql.="null";
-        $sql.= ");";
+        $sql="INSERT INTO autor (nombreAutor ,apellidoAutor,lugarNacimiento,fechaNacimiento)  ";
+        $sql.="VALUES('".$this->getNombreAutor()."','".$this->getApellidoAutor()."','".$this->getLugarNacimiento()."','".$this->getFechaNacimiento()."');";
         if ($base->Iniciar()) {
             if ($elid = $base->Ejecutar($sql)) {
                 $this->setIdAutor($elid);
                 $resp = true;
             } else {
-                $this->setMensajeoperacion("Autor->insertar: ".$base->getError()[2]);
+                $this->setMensajeoperacion("Autor->insertar: ".$base->getError()[0]);
             }
         } else {
-            $this->setMensajeoperacion("autor->insertar: ".$base->getError()[2]);
+            $this->setMensajeoperacion("autor->insertar: ".$base->getError()[0]);
         }
         return $resp;
     }

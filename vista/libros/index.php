@@ -36,7 +36,7 @@ $pagSeleccionada = "Nuevo Libro";
                             </div>
                             <div class="col-md-6">
                                 <label for="cantP" class="form-label">Cantidad de Paginas</label>
-                                <input type="number"id="cantP" name="cantP" class="form-control" placeholder="Cantidad de Paginas">
+                                <input type="number" id="cantP" name="cantP" class="form-control" placeholder="Cantidad de Paginas">
                             </div>
                             <div class="col-md-6">
                                 <label for="idioma" class="form-label">Idioma</label>
@@ -72,7 +72,7 @@ $pagSeleccionada = "Nuevo Libro";
                             </div>
                         </div>
                         <div class="text-center mt-3">
-                            <input  class="btn btn-success btn-cargar " type="submit"  value="Cargar Libro">
+                            <input class="btn btn-success btn-cargar " type="submit" value="Cargar Libro">
                         </div>
                     </form>
                 </div>
@@ -88,12 +88,11 @@ $pagSeleccionada = "Nuevo Libro";
                 </div>
             </div>
         </div>
-
         <div class="text-center mt-3">
             <button class="btn btn-success btn-nuevo" data-bs-toggle="modal" data-bs-target="#nuevoModal"> Nuevo Rol</button>
         </div>
     </div>
-    <!-- Modal Nuevo -->
+    <!-- Modal Nuevo Autor-->
     <div class="modal fade" id="cargarAutor" name="cargarAutor" tabindex="-1" aria-labelledby="cargarAutorLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <form name="cargarAutorForm" id="cargarAutorForm" method="post">
@@ -103,14 +102,14 @@ $pagSeleccionada = "Nuevo Libro";
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <div class="row g-3">
+                        <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="nombreA" class="form-label">Nombre</label>
-                                <input type="text" id="nombreA" name="nombreA" class="form-control" placeholder="Nombre del lAutor ">
+                                <input type="text" id="nombreA" name="nombreA" class="form-control" placeholder="Nombre del Autor ">
                             </div>
                             <div class="col-md-6">
                                 <label for="apellidoA" class="form-label">Apellidoo</label>
-                                <input type="text"id="apellidoA" name="apellidoA" class="form-control" placeholder="Apellido Autor">
+                                <input type="text" id="apellidoA" name="apellidoA" class="form-control" placeholder="Apellido Autor">
                             </div>
                             <div class="col-md-6">
                                 <label for="nacionalidad" class="form-label">Nacionalidad</label>
@@ -125,33 +124,35 @@ $pagSeleccionada = "Nuevo Libro";
                     <input id="accion" name="accion" value="nuevo" type="hidden">
                     <div class="modal-footer  bg-dark">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <input  class="btn btn-success btn-cargarAutor " type="submit"  value="Cargar Autor">
+                        <input class="btn btn-success btn-cargarAutor " type="submit" value="Cargar Autor">
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <!-- Modal editar -->
+    <!-- Modal EDITORIAL -->
     <div class="modal fade" id="cargarEditorial" name="cargarEditorial" tabindex="-1" aria-labelledby="cargarEditorialLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form name="editarForm" id="editarForm" method="post">
+            <form name="cargarEditorialForm" id="cargarEditorialForm" method="post">
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-light">
                         <h1 class="modal-title fs-5" id="editarModalLabel">Editar</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id='idRolEditar' name="idRolEditar">
-                        <div class="mb-3">
-                            <label for="rolDescripcionEditar" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="rolDescripcionEditar" name="rolDescripcionEditar">
+                        <div class="row g-3">
+                            <input id="accion" name="accion" value="nuevo" type="hidden">
+                            <div class="col-md-12">
+                                <label for="nombreE" class="form-label">Nombre</label>
+                                <input type="text" id="nombreE" name="nombreE" class="form-control" placeholder="Nombre del Editorial ">
+                            </div>
                         </div>
                     </div>
                     <input id="accionEditar" name="accionEditar" value="editar" type="hidden">
                     <input id="rolDeshabilitadoEditar" name="rolDeshabilitadoEditar" type="hidden">
                     <div class="modal-footer  bg-dark">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success" onclick="guardarCambiosEditar()">Guardar Cambios</button>
+                        <input class="btn btn-success btn-cargarEditorial " type="submit" value="Cargar Editorial">
                     </div>
                 </div>
             </form>
@@ -159,4 +160,5 @@ $pagSeleccionada = "Nuevo Libro";
     </div>
     <script src="./js/funciones.js"></script>
 </body>
+
 </html>

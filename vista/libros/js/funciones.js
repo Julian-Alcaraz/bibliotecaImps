@@ -139,20 +139,6 @@ $(document).ready(function() {
             var nacionalidad = $("#nacionalidad").val();
             var fecha = $("#fecha").val();
             var accion = $("#accion").val();
-            var fechaAux = new Date(fecha);
-
-            // Obtener los componentes de la fecha y hora
-            var year = fechaAux.getFullYear();
-            var month = (fechaAux.getMonth() + 1).toString().padStart(2, '0'); // Los meses comienzan desde 0, por eso sumamos 1
-            var day = fechaAux.getDate().toString().padStart(2, '0');
-            var fechaSql = `${year}-${month}-${day}`;
-
-            console.log(fechaSql);
-            console.log(nombre);
-            console.log(apellido);
-            console.log(nacionalidad);
-            console.log(fecha);
-            console.log(accion);
             $.ajax({
                 type: "POST",
                 url: "./accion/cargarAutor.php", 
@@ -162,7 +148,7 @@ $(document).ready(function() {
                     nombreAutor: nombre,
                     apellidoAutor : apellido,
                     lugarNacimiento : nacionalidad,
-                    fechaNacimiento : fechaSql,
+                    fechaNacimiento : fecha,
                     autorDeshabilitado: null,
                 },
                 success: function(response){
@@ -183,36 +169,17 @@ $(document).ready(function() {
     $.validator.addMethod("soloLetras", function(value, element) {
         return this.optional(element) || /^[a-zA-Z\sáéíóúÁÉÍÓÚñÑüÜ]+$/i.test(value);
     }, "Solo se permiten letras en este campo");
-    $("#cargarLibroForm").validate({
+    $("#cargarEditorialForm").validate({
         rules: {
-            nombreL: {
+            nombreE: {
                 required: true,
                 soloLetras: true,
             },
-            cantP: {
-                required: true,
-            },
-            idioma: {
-                required: true,
-            },
-            anio: {
-                required: true,
-            },
-            
         },
         messages: {
-            nombreL: {
+            nombreE: {
                 required: "Este campo es requerido",
                 soloLetas: "Solo se permiten letras en este campo",
-            },
-            cantP: {
-                required: "Este campo es requerido",
-            },
-            idioma: {
-                required: "Este campo es requerido",
-            },
-            anio: {
-                required: "Este campo es requerido",
             },
         },
         errorElement: "div", 
@@ -223,31 +190,16 @@ $(document).ready(function() {
         },   
         // cuando es valido y le da a submit ejecuta ajax
         submitHandler: function(form){
-            var nombre = $("#nombreL").val();
-            var cantP = $("#cantP").val();
-            var idioma = $("#idioma").val();
-            var anio = $("#anio").val();
-            var idAutor = $("#idAutor").val();
-            var idEditorial = $("#idEditorial").val();
-            var libroDeshabilitado = null;
-            var accion = 'nuevo'
-            
-            console.log(nombre,cantP,idioma,anio);
-            console.log(idAutor);
-            console.log(idEditorial);
+            var nombre = $("#nombreE").val();
+            var accion =$("#accion").val();
             $.ajax({
                 type: "POST",
-                url: "./accion/cargarLibro.php", 
+                url: "./accion/cargarEditorial.php", 
                 data: { 
-                    accion:accion,
-                    idLibro: null,
-                    nombreLibro: nombre,
-                    cantidadPag : cantP,
-                    idioma : idioma,
-                    anioPublicacion : anio,
-                    idAutor : idAutor,
-                    idEditorial : idEditorial,
-                    libroDeshabilitado : libroDeshabilitado,
+                    accion: accion,
+                    idEditorial: null,
+                    nombreEditorial: nombre,
+                    editorialDeshabilitado : null,
                 },
                 success: function(response){
                     accionSuccess();

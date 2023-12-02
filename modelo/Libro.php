@@ -221,7 +221,7 @@ class Libro{
                     $objEditorial = $listaEditoriales[0];
                     $idLibro=$row['idLibro'];
                     $nombreLibro=$row['nombreLibro'];
-                    $cantidadPag=$row['cantidadPaginas'];
+                    $cantidadPag=$row['cantidadPag'];
                     $idioma=$row['idioma'];
                     $anio=$row['anioPublicacion'];
                     $estado = $row['libroDeshabilitado'];

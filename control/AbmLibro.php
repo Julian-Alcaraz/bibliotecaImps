@@ -227,5 +227,14 @@ class AbmLibro
         $arreglo = Libro::listar($where);
         return $arreglo;  
     }
+    public function listarSegunEditorial($param){
+        $where = " true ";
+        if  (isset($param['busquedaEditorial'])) {
+            $where.=" and idEditorial=".$param['busquedaEditorial'];
+        }
+        $where.=" ORDER BY nombreLibro ASC";
+        $arreglo = Libro::listar($where);
+        return $arreglo; 
+    }
 }
 ?>
