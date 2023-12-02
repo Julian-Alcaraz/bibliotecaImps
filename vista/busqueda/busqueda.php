@@ -1,43 +1,37 @@
 <?php
 include_once('../../config.php');
 $pagSeleccionada = "Buscar Libro";
-
-// include_once('../estructura/header.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php include_once($ESTRUCTURA . "/header.php"); ?>
-    <?php
+    <?php 
+    include_once($ESTRUCTURA . "/header.php");
     include_once($ESTRUCTURA . "/navBar.php");
-    // include_once('../estructura/navBar.php');
-
-    // include_once($ESTRUCTURA . "/cabeceraBD.php");
-
     ?>
 </head>
 <?php
 $datos = data_submitted();
+// si existe un id de editorial carga solo los libros de esa editorial, sino carga todos, ordenados de manera asc
 $abmLibro = new AbmLibro();
-// print_r($datos);
 if (isset($datos['busquedaEditorial'])) {
     $listaLibros = $abmLibro->listarSegunEditorial($datos);
 } else {
     $listaLibros = $abmLibro->listarPorNombre();
 }
-// print_r($listaLibros);
 
 // crear lista de Autores y editorial en formato Json para poder buscar los mismo en base a su id en js
 $abmAutor = new AbmAutor();
 $listaAutores = $abmAutor->buscar(null);
 $arrayAutores = array();
 foreach ($listaAutores as $autor) {
+    // genero un array con el obj, debido a que sus atributos son privados
     $autorDismount = dismount($autor);
     array_push($arrayAutores, $autorDismount);
 }
 $arrayJsonAutores = json_encode($arrayAutores, JSON_PRETTY_PRINT);
-// editoriales
+// editoriales, lo mismo que con autores
 $abmEditorial = new AbmEditorial();
 $listaEditoriales = $abmEditorial->buscar(null);
 $arrayEditoriales = array();
@@ -46,23 +40,21 @@ foreach ($listaEditoriales as $editorial) {
     array_push($arrayEditoriales, $editorialDismount);
 }
 $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
-
 ?>
-<!-- ya tengo en js los arreglos  -->
+<!-- Cargp a js los arreglos  -->
 <script>
     var arregloAutores = <?php echo $arrayJsonAutores; ?>;
     var arregloEditoriales = <?php echo $arrayJsonEditoriales; ?>;
-    // console.log(arregloAutores);
-    // console.log(arregloEditoriales);
 </script>
 
 <body>
-    <div class="container text-center p-4 mt-3 ">
+    <div class="container text-center p-4 mt-3 rounded-4 shadow-lg" style="background-color: #FFFEFD">
         <h2>Lista de Libros </h2>
-        <div class="row justify-content-center border my-2">
-            <div class="col-4 border ">
+        <div class="row justify-content-center  my-2">
+            <div class="col-4 border p-3 rounded-3 " style="  background-color: #F7E7CE;">
+                <!-- formulario que envia el id de la editorial deseada para filtrar se envia a la misma pagina -->
                 <form action="" id="cambiarLista" method="GET">
-                    <label for="busquedaEditorial">Buscar por Editorial</label>
+                    <label for="busquedaEditorial" class="form-label"><h6>Buscar por Editorial</h6></label>
                     <select name="busquedaEditorial" id="busquedaEditorial" class="form-select" onchange="submitForm(this.value)">
                         <?php
                         echo '<option  value="" > Muestra todos los libros </option>';
@@ -79,7 +71,7 @@ $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table m-auto">
+            <table class="table m-auto table-bordered">
                 <thead class="table-dark fw-bold">
                     <tr>
                         <th>Id</th>
@@ -93,14 +85,15 @@ $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
                 </thead>
                 <tbody>
                     <?php
+                    // listo los libros
                     foreach ($listaLibros as $libro) {
                         echo '<tr><td>' . $libro->getIdLibro() . '</td>' .
                             '<td>' . $libro->getNombreLibro() . '</td>' .
                             '<td>' . $libro->getCantidadPag() . '</td>' .
                             '<td>' . $libro->getIdioma() . '</td>' .
                             '<td>' . $libro->getAnioPublicacion() . '</td>' .
-                            '<td><button class="btn btn-secondary"  onclick="abrirModalAutor(' . $libro->getObjAutor()->getIdAutor() . ')">Ver Datos</button></td>' . // tengo que pasar el id al modal o el obj
-                            '<td><button class="btn btn-secondary"  onclick="abrirModalEditorial(' . $libro->getObjEditorial()->getIdEditorial() . ')">Ver Datos</button></td></tr>'; // tengo que pasar el id al modal o el obj
+                            '<td><button class="btn btn-info"  onclick="abrirModalAutor(' . $libro->getObjAutor()->getIdAutor() . ')">Ver Datos</button></td>' . // paso el id del autor a la funcion js
+                            '<td><button class="btn btn-info"  onclick="abrirModalEditorial(' . $libro->getObjEditorial()->getIdEditorial() . ')">Ver Datos</button></td></tr>';
                     }
                     ?>
                 </tbody>
@@ -112,37 +105,35 @@ $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
     <div class="modal fade" id="modalAutor" name="modalAutor" tabindex="-1" aria-labelledby="nuevoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-dark text-light">
+                <div class="modal-header text-light" style="background-color:#623B1A ;">
                     <h1 class="modal-title fs-5" id="editarModalLabel">Autor</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="contenidoModalAutor"></div>
+                    <div id="contenidoModalAutor" class="text-center"></div>
                 </div>
-                <div class="modal-footer  bg-dark">
+                <div class="modal-footer " style="background-color:#623B1A ;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
             </form>
         </div>
     </div>
-    <!-- Modal editar -->
+    <!-- Modal Editorial -->
     <div class="modal fade" id="modalEditorial" name="modalEditorial" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form name="editarForm" id="editarForm" method="post">
-                <div class="modal-content">
-                    <div class="modal-header bg-dark text-light">
-                        <h1 class="modal-title fs-5" id="ModalLabel">Editorial</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="contenidoModalEditorial"></div>
-                    </div>
-                    <div class="modal-footer  bg-dark">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
+            <div class="modal-content">
+                <div class="modal-header text-light" style="background-color:#623B1A ;">
+                    <h1 class="modal-title fs-5" id="ModalLabel">Editorial</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </form>
+                <div class="modal-body">
+                    <div id="contenidoModalEditorial"class="text-center"></div>
+                </div>
+                <div class="modal-footer " style="background-color:#623B1A ;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./js/funciones.js"></script>

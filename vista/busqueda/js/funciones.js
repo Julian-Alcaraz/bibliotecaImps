@@ -1,38 +1,40 @@
+// funcion para abrir el modal autor
 function abrirModalAutor(idAutor){
-    console.log(idAutor); 
+    // recorro el arreglo  de autores, que agregue a script con anterioridad
     arregloAutores.forEach(element => {
+        // si el id del element(auto del array) es igual al id que recibo por parametro lo muestro
         if(element.idAutor==idAutor){
             // console.log(element);
             var contenidoModal = document.getElementById('contenidoModalAutor');
             contenidoModal.innerHTML = '';
-            contenidoModal.innerHTML += '<h3>Datos del Autor</h3><div>' +
-            '<p> Id: ' + element.idAutor +
-            '<p> Nombre: ' +  element.nombreAutor+
-            '<p> Apellido: ' + element.apellidoAutor +
-            '<p> Nacionalidad: ' + element.lugarNacimiento + ' ' +
-            '<p> Fecha Nacimiento: ' + element.fechaNacimiento  + '</div> </p> ';
+            contenidoModal.innerHTML += '<h3>Datos del Autor</h3><table class="table table-bordered ">' +
+            '<tr><td> Id:</td><td> ' + element.idAutor + '</td></tr>'+
+            '<tr><td> Nombre: </td><td>' +  element.nombreAutor+ '</td></tr>'+
+            '<tr><td> Apellido: </td><td>' + element.apellidoAutor + '</td></tr>'+
+            '<tr><td> Nacionalidad: </td><td>' + element.lugarNacimiento + '</td></tr>'+
+            '<tr><td> Fecha Nacimiento: </td><td>' + element.fechaNacimiento  + '</td></tr> </table> ';
         }
     });    
+    // abro el modal
     $("#modalAutor").modal("show");
 }
 function abrirModalEditorial(idEditorial){
-    console.log(idEditorial); 
+    // recorro el arreglo  de autores, que agregue a script con anterioridad
     arregloEditoriales.forEach(element => {
+        // si el id del element(auto del array) es igual al id que recibo por parametro lo muestro
         if(element.idEditorial==idEditorial){
-            // console.log(element);
             var contenidoModalE = document.getElementById('contenidoModalEditorial');
             contenidoModalE.innerHTML = '';
-            contenidoModalE.innerHTML += '<h3>Datos de la Editorial</h3><div>' +
-            '<p> Id: ' + element.idEditorial +
-            '<p> Nombre: ' +  element.nombreEditorial+'</div></p> ';
+            contenidoModalE.innerHTML += '<h3>Datos de la Editorial</h3><table class="table table-bordered ">' +
+            '<tr><td> Id:</td><td>' + element.idEditorial + '</td></tr>'+
+            '<tr><td> Nombre:</td> <td>' +  element.nombreEditorial+'</td></tr>'+
+            '</table> ';
         }
     });    
+    // abro el modal
     $("#modalEditorial").modal("show");
 }
+// permite enviar el dato del formulario buscar por editorial
 function submitForm(selectedValue) {
-    // Aquí puedes realizar acciones con el valor seleccionado
-    console.log('Valor seleccionado:', selectedValue);
-
-    // Por ejemplo, podrías enviar el formulario
     document.getElementById('cambiarLista').submit();
 }

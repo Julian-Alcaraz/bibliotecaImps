@@ -1,10 +1,12 @@
 //cargar Libro
 $(document).ready(function() {
-    // valido formulario
+    // reglas personalizadas
     $.validator.addMethod("soloLetras", function(value, element) {
         return this.optional(element) || /^[a-zA-Z\sáéíóúÁÉÍÓÚñÑüÜ]+$/i.test(value);
     }, "Solo se permiten letras en este campo");
+    // valido formulario
     $("#cargarLibroForm").validate({
+        // Seteo las reglas para cada campo
         rules: {
             nombreL: {
                 required: true,
@@ -12,16 +14,19 @@ $(document).ready(function() {
             },
             cantP: {
                 required: true,
+                min:1,
             },
             idioma: {
                 required: true,
-                soloLetras: true,
+                soloLetras: true, 
             },
             anio: {
                 required: true,
+                maxlength: 4,
+                min:1,
             },
-            
         },
+        // seteo los mensajes para cada campo
         messages: {
             nombreL: {
                 required: "Este campo es requerido",
@@ -29,6 +34,7 @@ $(document).ready(function() {
             },
             cantP: {
                 required: "Este campo es requerido",
+                min: "El minimo de paginas es 1",
             },
             idioma: {
                 required: "Este campo es requerido",
@@ -36,8 +42,12 @@ $(document).ready(function() {
             },
             anio: {
                 required: "Este campo es requerido",
+                maxlength: "Maximo 4 digitos ",
+                min: "El minimo es 1",
+
             },
         },
+        // defino como seran los mensajes de error
         errorElement: "div", 
         errorClass: "text-danger", 
         errorPlacement: function(error, element) 
@@ -54,10 +64,6 @@ $(document).ready(function() {
             var idEditorial = $("#idEditorial").val();
             var libroDeshabilitado = null;
             var accion = $("#accion").val();
-            
-            console.log(nombre,cantP,idioma,anio);
-            console.log(idAutor);
-            console.log(idEditorial);
             $.ajax({
                 type: "POST",
                 url: "./accion/cargarLibro.php", 
@@ -91,6 +97,7 @@ $(document).ready(function() {
         return this.optional(element) || /^[a-zA-Z\sáéíóúÁÉÍÓÚñÑüÜ]+$/i.test(value);
     }, "Solo se permiten letras en este campo");
     $("#cargarAutorForm").validate({
+        // Seteo las reglas para cada campo
         rules: {
             nombreA: {
                 required: true,
@@ -109,6 +116,7 @@ $(document).ready(function() {
             },
             
         },
+        // seteo los mensajes para cada campo
         messages: {
             nombreA: {
                 required: "Este campo es requerido",
@@ -126,6 +134,7 @@ $(document).ready(function() {
                 required: "Este campo es requerido",
             },
         },
+        // defino como seran los mensajes de error
         errorElement: "div", 
         errorClass: "text-danger", 
         errorPlacement: function(error, element) 
@@ -170,18 +179,21 @@ $(document).ready(function() {
         return this.optional(element) || /^[a-zA-Z\sáéíóúÁÉÍÓÚñÑüÜ]+$/i.test(value);
     }, "Solo se permiten letras en este campo");
     $("#cargarEditorialForm").validate({
+        // seteo las reglas de cada campo
         rules: {
             nombreE: {
                 required: true,
                 soloLetras: true,
             },
         },
+        // defino los mensajes de error
         messages: {
             nombreE: {
                 required: "Este campo es requerido",
                 soloLetas: "Solo se permiten letras en este campo",
             },
         },
+        // defino como seran los errores
         errorElement: "div", 
         errorClass: "text-danger", 
         errorPlacement: function(error, element) 
