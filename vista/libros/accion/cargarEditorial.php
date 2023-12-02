@@ -5,9 +5,5 @@ $ambEditorial=new AbmEditorial();
 $resp= $ambEditorial->abm($datos);
 if($resp){
     echo json_encode(array("success" => true));
-    // echo "<script>console.log('anduvo')</script>";
-}else{
-    echo json_encode(array("success" => false));
-    echo "<script>console.log('no anduvo')</script>";
 }
 ?>
