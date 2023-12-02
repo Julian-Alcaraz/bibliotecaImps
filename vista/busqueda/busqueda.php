@@ -21,24 +21,16 @@ if (isset($datos['busquedaEditorial'])) {
     $listaLibros = $abmLibro->listarPorNombre();
 }
 
-// crear lista de Autores y editorial en formato Json para poder buscar los mismo en base a su id en js
+// crear lista de Autores y editorial en formato Json para poder buscar los mismos en base a su id en js
 $abmAutor = new AbmAutor();
 $listaAutores = $abmAutor->buscar(null);
-$arrayAutores = array();
-foreach ($listaAutores as $autor) {
-    // genero un array con el obj, debido a que sus atributos son privados
-    $autorDismount = dismount($autor);
-    array_push($arrayAutores, $autorDismount);
-}
+$arrayAutores= convert_array($listaAutores);
 $arrayJsonAutores = json_encode($arrayAutores, JSON_PRETTY_PRINT);
+
 // editoriales, lo mismo que con autores
 $abmEditorial = new AbmEditorial();
 $listaEditoriales = $abmEditorial->buscar(null);
-$arrayEditoriales = array();
-foreach ($listaEditoriales as $editorial) {
-    $editorialDismount = dismount($editorial);
-    array_push($arrayEditoriales, $editorialDismount);
-}
+$arrayEditoriales= convert_array($listaEditoriales);
 $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
 ?>
 <!-- Cargp a js los arreglos  -->
