@@ -73,6 +73,7 @@ $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
                         <th>A&ntilde;o Publicaci&otilde;n</th>
                         <th>Autor</th>
                         <th>Editorial</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +86,9 @@ $arrayJsonEditoriales = json_encode($arrayEditoriales, JSON_PRETTY_PRINT);
                             '<td>' . $libro->getIdioma() . '</td>' .
                             '<td>' . $libro->getAnioPublicacion() . '</td>' .
                             '<td><button class="btn btn-info"  onclick="abrirModalAutor(' . $libro->getObjAutor()->getIdAutor() . ')">Ver Datos</button></td>' . // paso el id del autor a la funcion js
-                            '<td><button class="btn btn-info"  onclick="abrirModalEditorial(' . $libro->getObjEditorial()->getIdEditorial() . ')">Ver Datos</button></td></tr>';
+                            '<td><button class="btn btn-info"  onclick="abrirModalEditorial(' . $libro->getObjEditorial()->getIdEditorial() . ')">Ver Datos</button></td>'.
+                            '<td><button class="btn btn-danger"  onclick="eliminarLibro(' . $libro->getIdLibro(). ')">Eliminar</button></td>'
+                            .'</tr>';
                     }
                     ?>
                 </tbody>

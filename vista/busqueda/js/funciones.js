@@ -38,3 +38,45 @@ function abrirModalEditorial(idEditorial){
 function submitForm(selectedValue) {
     document.getElementById('cambiarLista').submit();
 }
+function eliminarLibro(idLibro){
+    var accion ="borrarLogico";
+    $.ajax({
+        type: "POST",
+        url: "./accion/administrarLibros.php", 
+        data: { 
+            accion: accion,
+            idLibro: idLibro,
+        },
+        success: function(response){
+            accionSuccess();
+        },
+        error: function(error) {
+            accionFailure()
+            console.error("Error en la solicitud AJAX:", error);
+        }
+    });
+}
+// mensaje de error y succcess
+function accionSuccess() {
+    Swal.fire({
+        icon: 'success',
+        title: 'La accion se realizo correctamente!',
+        showConfirmButton: false,
+        timer: 3000
+    })
+    setTimeout(function(){
+        location.reload();
+    },3500);
+}
+
+function accionFailure() {
+    Swal.fire({
+        icon: 'error',
+        title: 'No se ha realizado la accion!',
+        showConfirmButton: false,
+        timer: 3000
+    })
+    setTimeout(function(){
+        location.reload();
+    },3000);
+}

@@ -152,7 +152,7 @@ class Autor{
     public static  function listar($parametro=""){
         $arreglo = array();
         $base=new BaseDatos();
-        $sql="SELECT * FROM autor ";
+        $sql="SELECT idAutor ,nombreAutor ,apellidoAutor, lugarNacimiento, DATE_FORMAT(fechaNacimiento, '%d / %m / %Y') AS fechaNacimiento, autorDeshabilitado FROM autor ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }

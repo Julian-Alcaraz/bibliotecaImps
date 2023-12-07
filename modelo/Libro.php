@@ -197,13 +197,13 @@ class Libro{
         return $resp;
     }
 
-    public static function listar($parametro = "")
+    public static function listar($parametro = true)
     {
         $arreglo = array();
         $base = new BaseDatos;
         $sql = "SELECT * FROM libro ";
         if ($parametro != "") {
-            $sql .= "WHERE " . $parametro;
+            $sql .= "WHERE libroDeshabilitado is null and " . $parametro;
         }
         $res = $base->Ejecutar($sql);
         if ($res > -1) {
